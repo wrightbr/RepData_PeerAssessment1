@@ -81,16 +81,16 @@ plot(rownames(meanStepsInterval), meanStepsInterval, type='l', xlab="5-min inter
 
 
 ```r
-meanStepsInterval[max(meanStepsInterval)]
+meanStepsInterval[meanStepsInterval==max(meanStepsInterval)]
 ```
 
 ```
-##     1705 
-## 56.30189
+##      835 
+## 206.1698
 ```
 
 ```r
-# interval=1705
+# interval=835
 ```
 
 ### Imputing missing values
@@ -133,8 +133,10 @@ sum(is.na(activity$steps))
 
 
 ```r
+# first compute mean steps per interval as above
 meanStepsInterval<-with(activity, tapply(steps, interval, mean, na.rm=TRUE))
 
+# next create data frame with means and the intervals
 activityImputation<-data.frame(meanStepsInterval, interval=as.numeric(rownames(meanStepsInterval)))
 
 head(activityImputation)
@@ -162,9 +164,11 @@ head(activityImputation)
 activitySplit<-split(activity, is.na(activity$steps)==1)
 #str(activitySplit)
 
+# data without missing steps
 activityNA0<-activitySplit[[1]]
 #str(activityNA0)
 
+# data with missing steps
 activityNA1<-activitySplit[[2]]
 #str(activityNA1)
 
